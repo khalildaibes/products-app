@@ -3,6 +3,7 @@ import {
   computeTotals,
   filterByDays,
   getActivityLogs,
+  getOrders,
   getProducts,
   getSales,
   perProductReport,
@@ -11,12 +12,13 @@ import { getDictionary } from "@/lib/i18n";
 import { intlLocaleOf, money, num } from "@/lib/format";
 import type { ActivityLog, Locale } from "@/lib/types";
 import KpiCard from "@/components/KpiCard";
+import OrdersTable from "@/components/OrdersTable";
 import ProductManager, { ProductStats } from "@/components/ProductManager";
 import SalesList from "@/components/SalesList";
 
 export const dynamic = "force-dynamic";
 
-type Tab = "products" | "sales" | "activity";
+type Tab = "products" | "sales" | "orders" | "activity";
 
 /** Admin panel: every operation in one place — products CRUD, sales,
  *  activity log of all changes, and PDF exports. */
@@ -29,11 +31,19 @@ export default async function AdminPage({
 }) {
   const locale = params.locale;
   const dict = await getDictionary(locale);
-  const tab: Tab = searchParams.tab === "sales" ? "sales" : searchParams.tab === "activity" ? "activity" : "products";
+  const tab: Tab =
+    searchParams.tab === "sales"
+      ? "sales"
+      : searchParams.tab === "orders"
+      ? "orders"
+      : searchParams.tab === "activity"
+      ? "activity"
+      : "products";
 
-  const [products, sales, logs] = await Promise.all([
+  const [products, sales, orders, logs] = await Promise.all([
     getProducts(),
     getSales(),
+    getOrders(),
     getActivityLogs(100),
   ]);
   const totals = computeTotals(filterByDays(sales, 30));
@@ -51,6 +61,7 @@ export default async function AdminPage({
   const tabs: { key: Tab; label: string }[] = [
     { key: "products", label: dict.admin.productsTab },
     { key: "sales", label: dict.admin.salesTab },
+    { key: "orders", label: dict.admin.ordersTab },
     { key: "activity", label: dict.admin.activityTab },
   ];
 
@@ -134,6 +145,25 @@ export default async function AdminPage({
             },
             searchPlaceholder: dict.sales.search,
             emptyText: dict.sales.empty,
+          }}
+        />
+      )}
+
+      {tab === "orders" && (
+        <OrdersTable
+          orders={orders}
+          products={products}
+          locale={locale}
+          labels={{
+            order: dict.orders.order,
+            date: dict.sales.date,
+            seller: dict.sales.seller,
+            customer: dict.sales.customer,
+            items: dict.orders.items,
+            delivery: dict.orders.delivery,
+            total: dict.form.total,
+            invoicePdf: dict.actions.invoicePdf,
+            empty: dict.orders.empty,
           }}
         />
       )}

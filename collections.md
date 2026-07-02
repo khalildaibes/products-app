@@ -83,18 +83,23 @@ later product-price edits never rewrite history.
 
 ## 5. `order` (Collection Type)
 
-A multi-line order (several products bought together). Sales can exist without
-an order; an order groups sale lines under one document/PDF.
+A multi-line order (several products bought together — this is what the app's
+**cart** checkout creates). Sales can exist without an order; an order groups
+sale lines under one document/PDF and can carry a delivery address + fee.
 
-| Field         | Type                                   | Required | Notes                              |
-| ------------- | -------------------------------------- | -------- | ---------------------------------- |
-| `orderNumber` | Text (short)                           | yes      | Unique, e.g. `ORD-2026-00012`      |
-| `customer`    | Relation → customer (many-to-one)      | yes      |                                    |
-| `seller`      | Relation → seller (many-to-one)        | yes      |                                    |
-| `sales`       | Relation → sale (one-to-many)          | yes      | The lines that make up the order   |
-| `status`      | Enumeration: `draft`, `confirmed`, `delivered`, `cancelled` | yes | Default `confirmed` |
-| `date`        | Date                                   | yes      |                                    |
-| `total`       | Number (decimal)                       | yes      | Sum of line `quantity × unitPrice` |
+| Field             | Type                                   | Required | Notes                                        |
+| ----------------- | -------------------------------------- | -------- | -------------------------------------------- |
+| `orderNumber`     | Text (short)                           | yes      | Unique, e.g. `ORD-2026-00012`                |
+| `customer`        | Relation → customer (many-to-one)      | no       | App sends `customerName`; link later if wanted |
+| `seller`          | Relation → seller (many-to-one)        | no       | App sends `sellerName`                       |
+| `sales`           | Relation → sale (one-to-many)          | yes      | The lines that make up the order (Strapi adds an `order` field on `sale` for this) |
+| `sellerName`      | Text (short)                           | yes      | Denormalized copy for fast lists/PDFs        |
+| `customerName`    | Text (short)                           | yes      | Denormalized copy for fast lists/PDFs        |
+| `status`          | Enumeration: `draft`, `confirmed`, `delivered`, `cancelled` | yes | Default `confirmed`; the app sends `confirmed` |
+| `date`            | Date                                   | yes      |                                              |
+| `deliveryAddress` | Text (long)                            | no       | Supply/delivery address (optional)           |
+| `deliveryFee`     | Number (decimal)                       | no       | Default `0`; added on top of the items total |
+| `total`           | Number (decimal)                       | yes      | Sum of line `quantity × unitPrice` + `deliveryFee` |
 
 ---
 
@@ -124,7 +129,8 @@ Treat it as append-only: no one should have update/delete permission on it.
 2. If Custom, grant:
    - `product`: find, findOne, create, update, delete
    - `customer`, `seller`: find, findOne, create
-   - `sale`, `order`: find, findOne, create
+   - `sale`: find, findOne, create
+   - `order`: find, findOne, create
    - `activity-log`: find, findOne, create  ← **no update/delete** (append-only)
 3. Put the token in `.env.local` as `STRAPI_API_TOKEN`.
 

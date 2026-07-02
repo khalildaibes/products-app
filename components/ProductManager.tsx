@@ -7,6 +7,8 @@ import type { Locale, Product } from "@/lib/types";
 import Sheet from "./Sheet";
 import ProductForm, { FormLabels } from "./ProductForm";
 import SaleForm, { SaleFormLabels } from "./SaleForm";
+import { CartIcon } from "./Cart";
+import { useCart } from "./CartProvider";
 
 export interface ProductStats {
   unitsSold: number;
@@ -28,6 +30,8 @@ export type ManagerLabels = {
     confirmDelete: string;
     sell: string;
     error: string;
+    addToCart: string;
+    inCart: string;
   };
   searchPlaceholder: string;
   emptyText: string;
@@ -57,6 +61,7 @@ export default function ProductManager({
   >(null);
   const [confirmingDelete, setConfirmingDelete] = useState<number | null>(null);
   const [pending, startTransition] = useTransition();
+  const cart = useCart();
 
   const filtered = useMemo(() => {
     const q = query.trim();
@@ -106,6 +111,18 @@ export default function ProductManager({
           className={`${chipBtn} bg-accent text-white`}
         >
           {labels.actions.sell}
+        </button>
+        <button
+          type="button"
+          onClick={() => (cart.has(p.id) ? cart.remove(p.id) : cart.add(p.id))}
+          className={`${chipBtn} ${
+            cart.has(p.id)
+              ? "bg-ink text-white"
+              : "border border-line text-ink/70 hover:bg-surface"
+          }`}
+        >
+          <CartIcon className="h-4 w-4" />
+          {cart.has(p.id) ? labels.actions.inCart : labels.actions.addToCart}
         </button>
         <button
           disabled={pending}

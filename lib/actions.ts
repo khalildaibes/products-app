@@ -3,12 +3,13 @@
 import { revalidatePath } from "next/cache";
 import {
   adjustStock as apiAdjustStock,
+  createOrder,
   createProduct,
   createSale,
   deleteProduct as apiDeleteProduct,
   updateProduct,
 } from "./api";
-import { ProductInput, SaleInput } from "./types";
+import { OrderInput, ProductInput, SaleInput } from "./types";
 
 /**
  * One-click operations. Each mutation writes an activity-log entry
@@ -83,6 +84,26 @@ export async function adjustStockAction(id: number, delta: number): Promise<Acti
     return { ok: true };
   } catch (e) {
     return fail(e);
+  }
+}
+
+export type OrderResult = { ok: true; orderId: number } | { ok: false; error: string };
+
+export async function createOrderAction(input: OrderInput): Promise<OrderResult> {
+  try {
+    if (
+      input.items.length === 0 ||
+      input.items.some((it) => it.quantity <= 0) ||
+      !input.sellerName ||
+      !input.customerName
+    ) {
+      return { ok: false, error: "missing-fields" };
+    }
+    const order = await createOrder(input);
+    revalidateAll();
+    return { ok: true, orderId: order.id };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : String(e) };
   }
 }
 

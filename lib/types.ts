@@ -40,6 +40,33 @@ export interface SaleInput {
   date?: string;
 }
 
+export interface OrderItem {
+  productId: number;
+  quantity: number;
+  unitPrice: number; // price at time of order
+  unitCost: number; // cost at time of order
+}
+
+export interface Order {
+  id: number;
+  orderNumber: string;
+  sellerName: string; // who sold it
+  customerName: string; // to whom
+  date: string; // ISO date (YYYY-MM-DD)
+  items: OrderItem[];
+  deliveryAddress?: string; // supply address (optional)
+  deliveryFee: number; // 0 when no delivery
+  total: number; // items total + deliveryFee
+}
+
+export interface OrderInput {
+  sellerName: string;
+  customerName: string;
+  items: { productId: number; quantity: number }[];
+  deliveryAddress?: string;
+  deliveryFee?: number;
+}
+
 export type ActivityAction = "create" | "update" | "delete" | "sale" | "stock";
 export type ActivityEntity = "product" | "sale" | "customer" | "seller" | "order";
 

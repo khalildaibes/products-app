@@ -38,11 +38,30 @@
   },
   "admin": {
     "title": "פאנל ניהול",
-    "subtitle": "כל הפעולות במקום אחד — מוצרים, מכירות ויומן פעילות",
+    "subtitle": "כל הפעולות במקום אחד — מוצרים, מכירות, הזמנות ויומן פעילות",
     "productsTab": "מוצרים",
     "salesTab": "מכירות",
+    "ordersTab": "הזמנות",
     "activityTab": "יומן פעילות",
     "reportPdf": "דוח מכירות PDF"
+  },
+  "orders": {
+    "order": "הזמנה",
+    "items": "מוצרים",
+    "delivery": "משלוח",
+    "empty": "אין הזמנות עדיין — הוסיפו מוצרים לסל והשלימו הזמנה"
+  },
+  "cart": {
+    "title": "סל קניות",
+    "empty": "הסל ריק",
+    "seller": "מוכר",
+    "customer": "לקוח",
+    "deliveryAddress": "כתובת למשלוח (אופציונלי)",
+    "deliveryFee": "דמי משלוח",
+    "itemsTotal": "סה\"כ מוצרים",
+    "total": "סה\"כ לתשלום",
+    "checkout": "השלמת הזמנה",
+    "error": "אירעה שגיאה — נסו שוב"
   },
   "activity": {
     "empty": "אין פעילות עדיין — כל הוספה או שינוי יירשמו כאן",
@@ -65,7 +84,9 @@
     "sell": "מכירה",
     "error": "אירעה שגיאה — נסו שוב",
     "downloadPdf": "הורדת PDF",
-    "invoicePdf": "חשבונית PDF"
+    "invoicePdf": "חשבונית PDF",
+    "addToCart": "לסל",
+    "inCart": "בסל ✓"
   },
   "form": {
     "sku": "מק\"ט (SKU)",
@@ -85,6 +106,7 @@
   },
   "invoice": {
     "docTitle": "חשבונית מכירה",
+    "orderDocTitle": "חשבונית הזמנה",
     "seller": "מוכר",
     "customer": "לקוח",
     "product": "מוצר",

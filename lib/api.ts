@@ -1,8 +1,11 @@
-import { getStore, nextInvoiceNumber } from "./store";
+import { getStore, nextInvoiceNumber, nextOrderNumber } from "./store";
 import {
   ActivityAction,
   ActivityEntity,
   ActivityLog,
+  Order,
+  OrderInput,
+  OrderItem,
   PeriodPoint,
   Product,
   ProductInput,
@@ -119,6 +122,44 @@ export async function getSale(id: number): Promise<Sale | undefined> {
     return mapSale(d);
   }
   return getStore().sales.find((s) => s.id === id);
+}
+
+function mapOrder(d: StrapiEntity): Order {
+  const lines: StrapiEntity[] = d.attributes.sales?.data ?? [];
+  return {
+    id: d.id,
+    orderNumber: d.attributes.orderNumber,
+    sellerName: d.attributes.sellerName ?? "",
+    customerName: d.attributes.customerName ?? "",
+    date: d.attributes.date,
+    items: lines.map((l) => ({
+      productId: l.attributes.product?.data?.id ?? l.attributes.productId,
+      quantity: l.attributes.quantity,
+      unitPrice: l.attributes.unitPrice,
+      unitCost: l.attributes.unitCost,
+    })),
+    deliveryAddress: d.attributes.deliveryAddress ?? undefined,
+    deliveryFee: d.attributes.deliveryFee ?? 0,
+    total: d.attributes.total,
+  };
+}
+
+export async function getOrders(): Promise<Order[]> {
+  if (useStrapi()) {
+    const data = await strapi<StrapiEntity[]>(
+      "orders?populate[sales][populate]=product&pagination[pageSize]=500&sort=date:desc"
+    );
+    return data.map(mapOrder);
+  }
+  return [...getStore().orders].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+}
+
+export async function getOrder(id: number): Promise<Order | undefined> {
+  if (useStrapi()) {
+    const d = await strapi<StrapiEntity>(`orders/${id}?populate[sales][populate]=product`);
+    return mapOrder(d);
+  }
+  return getStore().orders.find((o) => o.id === id);
 }
 
 export async function getActivityLogs(limit = 100): Promise<ActivityLog[]> {
@@ -348,6 +389,115 @@ export async function createSale(input: SaleInput): Promise<Sale> {
     payload: { sale },
   });
   return sale;
+}
+
+export async function createOrder(input: OrderInput): Promise<Order> {
+  const products = await getProducts();
+  const items: OrderItem[] = input.items.map((it) => {
+    const p = products.find((x) => x.id === it.productId);
+    if (!p) throw new Error(`Product ${it.productId} not found`);
+    return {
+      productId: it.productId,
+      quantity: it.quantity,
+      unitPrice: p.salePrice,
+      unitCost: p.costPrice,
+    };
+  });
+  if (items.length === 0) throw new Error("Order has no items");
+
+  const date = new Date().toISOString().slice(0, 10);
+  const deliveryFee = Math.max(0, input.deliveryFee ?? 0);
+  const itemsTotal = items.reduce((sum, it) => sum + it.unitPrice * it.quantity, 0);
+  const total = itemsTotal + deliveryFee;
+  const orderNumber = useStrapi()
+    ? `ORD-${date.replace(/-/g, "")}-${String(Date.now() % 100000).padStart(5, "0")}`
+    : nextOrderNumber();
+
+  let order: Order;
+  if (useStrapi()) {
+    const d = await strapi<StrapiEntity>("orders", {
+      method: "POST",
+      body: JSON.stringify({
+        data: {
+          orderNumber,
+          sellerName: input.sellerName,
+          customerName: input.customerName,
+          status: "confirmed",
+          date,
+          deliveryAddress: input.deliveryAddress || null,
+          deliveryFee,
+          total,
+        },
+      }),
+    });
+    // one sale line per item, linked to the order
+    for (const it of items) {
+      await strapi("sales", {
+        method: "POST",
+        body: JSON.stringify({
+          data: {
+            product: it.productId,
+            order: d.id,
+            quantity: it.quantity,
+            unitPrice: it.unitPrice,
+            unitCost: it.unitCost,
+            date,
+            sellerName: input.sellerName,
+            customerName: input.customerName,
+            invoiceNumber: orderNumber,
+          },
+        }),
+      });
+      const p = products.find((x) => x.id === it.productId)!;
+      await strapi(`products/${it.productId}`, {
+        method: "PUT",
+        body: JSON.stringify({ data: { stock: Math.max(0, p.stock - it.quantity) } }),
+      });
+    }
+    order = { ...mapOrder(d), items };
+  } else {
+    const store = getStore();
+    order = {
+      id: store.nextOrderId++,
+      orderNumber,
+      sellerName: input.sellerName,
+      customerName: input.customerName,
+      date,
+      items,
+      deliveryAddress: input.deliveryAddress || undefined,
+      deliveryFee,
+      total,
+    };
+    store.orders.push(order);
+    for (const it of items) {
+      store.sales.push({
+        id: store.nextSaleId++,
+        productId: it.productId,
+        quantity: it.quantity,
+        unitPrice: it.unitPrice,
+        unitCost: it.unitCost,
+        date,
+        sellerName: input.sellerName,
+        customerName: input.customerName,
+        invoiceNumber: orderNumber,
+      });
+      const p = store.products.find((x) => x.id === it.productId);
+      if (p) p.stock = Math.max(0, p.stock - it.quantity);
+    }
+  }
+
+  await logActivity({
+    action: "create",
+    entityType: "order",
+    entityId: order.id,
+    actor: input.sellerName,
+    summary: {
+      ar: `طلبية ${orderNumber}: ${items.length} منتجات إلى ${input.customerName} بمجموع ${total}₪${deliveryFee > 0 ? ` (توصيل ${deliveryFee}₪)` : ""}`,
+      he: `הזמנה ${orderNumber}: ${items.length} מוצרים ל-${input.customerName} בסך ₪${total}${deliveryFee > 0 ? ` (משלוח ₪${deliveryFee})` : ""}`,
+    },
+    payload: { order },
+  });
+  return order;
 }
 
 /* ---------- Aggregation helpers ---------- */

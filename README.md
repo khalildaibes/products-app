@@ -17,6 +17,7 @@ Open http://localhost:3000 — you'll be redirected to `/ar` (Arabic). Switch to
 - `/{ar|he}` — **Dashboard**: 30-day totals (revenue, cost, profit, units), 14-day trend chart, top sellers
 - `/{ar|he}/products` — **Products**: one-tap operations — add (FAB), edit, delete, stock **+/−** steppers, quick-sell
 - `/{ar|he}/sales` — **Sales**: every sale records *who sold it, to whom, what, and at what price*; one-tap new sale; PDF invoice per sale
+- **Cart** (floating button, everywhere): add each product once, pick quantities, optional supply address + delivery fee, checkout creates a multi-line **order** with its own PDF invoice (`/{ar|he}/print/order/{id}`); orders are listed in Admin → Orders
 - `/{ar|he}/reports` — **Reports**: daily (14 days) / weekly (8 weeks) toggle, chart + breakdown table
 - `/{ar|he}/admin` — **Admin panel**: all operations in one place — product CRUD, sales, the **activity log** (every add/change is recorded), and PDF exports
 - `/{ar|he}/print/invoice/{saleId}` — PDF invoice for a sale/order
