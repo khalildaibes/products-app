@@ -1,0 +1,133 @@
+{
+  "appName": "ניהול מוצרים",
+  "nav": {
+    "dashboard": "ראשי",
+    "products": "מוצרים",
+    "sales": "מכירות",
+    "reports": "דוחות",
+    "admin": "ניהול"
+  },
+  "kpi": {
+    "revenue": "סך המכירות",
+    "cost": "סך העלות",
+    "profit": "רווח נקי",
+    "units": "יחידות שנמכרו",
+    "last30": "30 הימים האחרונים"
+  },
+  "dashboard": {
+    "title": "לוח בקרה",
+    "subtitle": "סקירת ביצועים ב-30 הימים האחרונים",
+    "topProducts": "הנמכרים ביותר",
+    "dailyTrend": "מכירות יומיות (14 ימים אחרונים)"
+  },
+  "products": {
+    "title": "מוצרים",
+    "subtitle": "הוספה, עריכה ומכירה בלחיצה אחת",
+    "search": "חיפוש מוצר…",
+    "empty": "לא נמצאו מוצרים מתאימים"
+  },
+  "sales": {
+    "title": "מכירות",
+    "subtitle": "כל מכירה: מי מכר, למי, מה ובאיזה מחיר",
+    "search": "חיפוש לפי מוכר, לקוח או מוצר…",
+    "empty": "אין מכירות",
+    "invoice": "חשבונית",
+    "date": "תאריך",
+    "seller": "מוכר",
+    "customer": "לקוח"
+  },
+  "admin": {
+    "title": "פאנל ניהול",
+    "subtitle": "כל הפעולות במקום אחד — מוצרים, מכירות ויומן פעילות",
+    "productsTab": "מוצרים",
+    "salesTab": "מכירות",
+    "activityTab": "יומן פעילות",
+    "reportPdf": "דוח מכירות PDF"
+  },
+  "activity": {
+    "empty": "אין פעילות עדיין — כל הוספה או שינוי יירשמו כאן",
+    "actions": {
+      "create": "הוספה",
+      "update": "עדכון",
+      "delete": "מחיקה",
+      "sale": "מכירה",
+      "stock": "מלאי"
+    }
+  },
+  "actions": {
+    "addProduct": "הוספת מוצר",
+    "newSale": "מכירה חדשה",
+    "save": "שמירה",
+    "recordSale": "רישום מכירה",
+    "edit": "עריכה",
+    "delete": "מחיקה",
+    "confirmDelete": "לאשר מחיקה?",
+    "sell": "מכירה",
+    "error": "אירעה שגיאה — נסו שוב",
+    "downloadPdf": "הורדת PDF",
+    "invoicePdf": "חשבונית PDF"
+  },
+  "form": {
+    "sku": "מק\"ט (SKU)",
+    "nameAr": "שם בערבית",
+    "nameHe": "שם בעברית",
+    "categoryAr": "קטגוריה בערבית",
+    "categoryHe": "קטגוריה בעברית",
+    "costPrice": "מחיר עלות",
+    "salePrice": "מחיר מכירה",
+    "stock": "מלאי",
+    "product": "מוצר",
+    "quantity": "כמות",
+    "unitPrice": "מחיר ליחידה",
+    "seller": "מוכר",
+    "customer": "לקוח",
+    "total": "סה\"כ"
+  },
+  "invoice": {
+    "docTitle": "חשבונית מכירה",
+    "seller": "מוכר",
+    "customer": "לקוח",
+    "product": "מוצר",
+    "quantity": "כמות",
+    "unitPrice": "מחיר ליחידה",
+    "lineTotal": "סכום",
+    "total": "סה\"כ לתשלום",
+    "thanks": "תודה שקניתם אצלנו",
+    "printHint": "לחצו \"הורדת PDF\" ואז בחרו \"שמירה כ-PDF\" בחלון ההדפסה"
+  },
+  "report": {
+    "docTitle": "דוח מכירות",
+    "lastDays": "{n} הימים האחרונים",
+    "byProduct": "לפי מוצר",
+    "byDay": "לפי יום"
+  },
+  "reports": {
+    "title": "דוחות",
+    "subtitle": "דוחות מכירות, עלות ורווח",
+    "daily": "יומי",
+    "weekly": "שבועי",
+    "chartTitleDaily": "דוח יומי — 14 ימים אחרונים",
+    "chartTitleWeekly": "דוח שבועי — 8 שבועות אחרונים",
+    "weekOf": "שבוע של",
+    "date": "תאריך",
+    "total": "סה\"כ"
+  },
+  "table": {
+    "product": "מוצר",
+    "sku": "מק\"ט",
+    "category": "קטגוריה",
+    "costPrice": "מחיר עלות",
+    "salePrice": "מחיר מכירה",
+    "stock": "מלאי",
+    "unitsSold": "יחידות שנמכרו",
+    "revenue": "מכירות",
+    "cost": "עלות",
+    "profit": "רווח",
+    "margin": "שולי רווח"
+  },
+  "legend": { "revenue": "מכירות", "cost": "עלות", "profit": "רווח" },
+  "misc": {
+    "mockNotice": "נתוני דמו — חברו Strapi דרך ‎.env.local (ראו collections.md)",
+    "language": "العربية"
+  }
+}

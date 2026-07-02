@@ -1,0 +1,133 @@
+{
+  "appName": "إدارة المنتجات",
+  "nav": {
+    "dashboard": "الرئيسية",
+    "products": "المنتجات",
+    "sales": "المبيعات",
+    "reports": "التقارير",
+    "admin": "الإدارة"
+  },
+  "kpi": {
+    "revenue": "إجمالي المبيعات",
+    "cost": "إجمالي التكلفة",
+    "profit": "صافي الربح",
+    "units": "الوحدات المباعة",
+    "last30": "آخر 30 يومًا"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "نظرة عامة على الأداء خلال آخر 30 يومًا",
+    "topProducts": "الأكثر مبيعًا",
+    "dailyTrend": "المبيعات اليومية (آخر 14 يومًا)"
+  },
+  "products": {
+    "title": "المنتجات",
+    "subtitle": "أضف، عدّل، وبِع بلمسة واحدة",
+    "search": "ابحث عن منتج…",
+    "empty": "لا توجد منتجات مطابقة"
+  },
+  "sales": {
+    "title": "المبيعات",
+    "subtitle": "كل عملية بيع: من باع، لمن، ماذا، وبأي سعر",
+    "search": "ابحث بالبائع، الزبون، أو المنتج…",
+    "empty": "لا توجد مبيعات",
+    "invoice": "الفاتورة",
+    "date": "التاريخ",
+    "seller": "البائع",
+    "customer": "الزبون"
+  },
+  "admin": {
+    "title": "لوحة الإدارة",
+    "subtitle": "كل العمليات في مكان واحد — منتجات، مبيعات، وسجل النشاط",
+    "productsTab": "المنتجات",
+    "salesTab": "المبيعات",
+    "activityTab": "سجل النشاط",
+    "reportPdf": "تقرير المبيعات PDF"
+  },
+  "activity": {
+    "empty": "لا يوجد نشاط بعد — كل إضافة أو تعديل سيُسجّل هنا",
+    "actions": {
+      "create": "إضافة",
+      "update": "تعديل",
+      "delete": "حذف",
+      "sale": "بيع",
+      "stock": "مخزون"
+    }
+  },
+  "actions": {
+    "addProduct": "إضافة منتج",
+    "newSale": "بيع جديد",
+    "save": "حفظ",
+    "recordSale": "تسجيل البيع",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "confirmDelete": "تأكيد الحذف؟",
+    "sell": "بيع",
+    "error": "حدث خطأ — حاول مرة أخرى",
+    "downloadPdf": "تحميل PDF",
+    "invoicePdf": "فاتورة PDF"
+  },
+  "form": {
+    "sku": "رمز المنتج (SKU)",
+    "nameAr": "الاسم بالعربية",
+    "nameHe": "الاسم بالعبرية",
+    "categoryAr": "الفئة بالعربية",
+    "categoryHe": "الفئة بالعبرية",
+    "costPrice": "سعر التكلفة",
+    "salePrice": "سعر البيع",
+    "stock": "المخزون",
+    "product": "المنتج",
+    "quantity": "الكمية",
+    "unitPrice": "سعر الوحدة",
+    "seller": "البائع",
+    "customer": "الزبون",
+    "total": "الإجمالي"
+  },
+  "invoice": {
+    "docTitle": "فاتورة بيع",
+    "seller": "البائع",
+    "customer": "الزبون",
+    "product": "المنتج",
+    "quantity": "الكمية",
+    "unitPrice": "سعر الوحدة",
+    "lineTotal": "المجموع",
+    "total": "الإجمالي النهائي",
+    "thanks": "شكرًا لتعاملكم معنا",
+    "printHint": "اضغط \"تحميل PDF\" ثم اختر \"حفظ كـ PDF\" في نافذة الطباعة"
+  },
+  "report": {
+    "docTitle": "تقرير المبيعات",
+    "lastDays": "آخر {n} يومًا",
+    "byProduct": "حسب المنتج",
+    "byDay": "حسب اليوم"
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "تقارير المبيعات والتكلفة والربح",
+    "daily": "يومي",
+    "weekly": "أسبوعي",
+    "chartTitleDaily": "التقرير اليومي — آخر 14 يومًا",
+    "chartTitleWeekly": "التقرير الأسبوعي — آخر 8 أسابيع",
+    "weekOf": "أسبوع",
+    "date": "التاريخ",
+    "total": "الإجمالي"
+  },
+  "table": {
+    "product": "المنتج",
+    "sku": "رمز المنتج",
+    "category": "الفئة",
+    "costPrice": "سعر التكلفة",
+    "salePrice": "سعر البيع",
+    "stock": "المخزون",
+    "unitsSold": "الوحدات المباعة",
+    "revenue": "المبيعات",
+    "cost": "التكلفة",
+    "profit": "الربح",
+    "margin": "هامش الربح"
+  },
+  "legend": { "revenue": "المبيعات", "cost": "التكلفة", "profit": "الربح" },
+  "misc": {
+    "mockNotice": "بيانات تجريبية — اربط Strapi عبر ‎.env.local (انظر collections.md)",
+    "language": "עברית"
+  }
+}
